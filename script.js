@@ -467,9 +467,110 @@ class MessageForm {
 }
 
 // ============================================
+// Envelope Animation with Gold Particles
+// ============================================
+function createGoldDust() {
+    const container = document.querySelector('.envelope-wrapper');
+    const splashScreen = document.getElementById('splash-screen');
+    const targetContainer = splashScreen || document.body;
+    
+    // Dapatkan posisi tengah envelope
+    const envelopeContainer = document.querySelector('.envelope-container');
+    let centerX = window.innerWidth / 2;
+    let centerY = window.innerHeight / 2;
+    
+    if (envelopeContainer) {
+        const rect = envelopeContainer.getBoundingClientRect();
+        centerX = rect.left + rect.width / 2;
+        centerY = rect.top + rect.height / 2;
+    }
+    
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('gold-particle');
+        
+        // Ukuran partikel acak
+        const size = Math.random() * 5 + 2 + 'px';
+        particle.style.width = size;
+        particle.style.height = size;
+        
+        // Posisi awal (di tengah amplop)
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+        particle.style.position = 'fixed';
+        
+        targetContainer.appendChild(particle);
+
+        // Arah sebaran acak
+        const destinationX = (Math.random() - 0.5) * 800;
+        const destinationY = -Math.random() * 500 - 100;
+
+        const animation = particle.animate([
+            { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+            { transform: `translate(${destinationX}px, ${destinationY}px) scale(0)`, opacity: 0 }
+        ], {
+            duration: Math.random() * 1000 + 2000,
+            easing: 'cubic-bezier(0.1, 0.8, 0.3, 1)',
+            delay: Math.random() * 100
+        });
+
+        animation.onfinish = () => particle.remove();
+    }
+}
+
+function openEnvelope() {
+    const container = document.querySelector('.envelope-container');
+    const splashScreen = document.getElementById('splash-screen');
+    const content = document.querySelector('.content');
+    const isOpen = container.classList.toggle('open');
+
+    if (isOpen) {
+        // Hide hint text
+        const hint = document.querySelector('.click-hint');
+        if (hint) {
+            hint.style.opacity = '0';
+        }
+        
+        // Panggil efek partikel berkali-kali untuk kesan meriah
+        for(let i = 0; i < 2; i++) {
+            setTimeout(createGoldDust, i * 1000);
+        }
+        
+        // Hide splash screen after letter appears (0.6 seconds)
+        setTimeout(() => {
+            if (splashScreen) {
+                splashScreen.classList.add('hidden');
+            }
+            // Show main content with fade in
+            if (content) {
+                content.style.transition = 'opacity 0.6s ease-in';
+                content.style.opacity = '1';
+            }
+            // Show background video and overlay
+            document.body.classList.add('loaded');
+        }, 600);
+    }
+}
+
+// ============================================
 // Initialize Everything
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    // Splash screen animation
+    const splashScreen = document.getElementById('splash-screen');
+    const content = document.querySelector('.content');
+    const envelope = document.getElementById('envelope-click');
+    
+    // Hide content initially
+    if (content) {
+        content.style.opacity = '0';
+    }
+    
+    // Envelope click handler
+    if (envelope) {
+        envelope.addEventListener('click', openEnvelope);
+    }
+    
     // Initialize countdown timer
     new CountdownTimer();
     
@@ -585,4 +686,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
