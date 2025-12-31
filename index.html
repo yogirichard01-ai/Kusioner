@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Tahun Baru 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Splash Screen with Letter Animation -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="letter-animation">
+            <div class="envelope-container" id="envelope-click">
+                <div class="envelope-wrapper">
+                    <div class="envelope">
+                        <div class="flap"></div>
+                        <div class="front"></div>
+                    </div>
+                    <!-- Teks yang muncul di tengah amplop -->
+                    <div class="celebration">
+                    </div>
+                </div>
+            </div>
+            <p class="click-hint">Klik untuk membuka</p>
+        </div>
+    </div>
+
+    <!-- Background Video -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="Tahun Baru.mp4" type="video/mp4">
+        Browser Anda tidak mendukung video HTML5.
+    </video>
+    <div class="background-overlay"></div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">
+                2026
+            </h1>
+            <p class="hero-subtitle">
+                Selamat Tahun Baru
+            </p>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="countdown-container">
+            <div class="countdown-title">
+                <h2>Menuju Tahun Baru</h2>
+            </div>
+            <div class="countdown-display">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Hari</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Jam</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Menit</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Detik</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Buttons -->
+        <div class="buttons-group">
+            <button id="btn-harapan" class="btn-harapan">
+                 Klik untuk Ucapan 
+            </button>
+            <button id="btn-kirim-pesan" class="btn-kirim-pesan">
+                 Kirim Pesan Harapan
+            </button>
+        </div>
+    </div>
+
+    <!-- Send Message Form Overlay -->
+    <div id="message-form-overlay" class="overlay hidden" aria-hidden="true">
+        <div class="overlay-inner">
+            <button id="close-form-overlay" class="close-btn" aria-label="Tutup form">✕</button>
+            <h3 class="overlay-title">Kirim Pesan Harapan 2026</h3>
+            <p class="overlay-subtitle">Tuliskan harapan dan doa terbaikmu untuk tahun baru</p>
+            <form id="message-form" class="message-form">
+                <div class="form-group">
+                    <label for="message-content" class="form-label">Pesan Harapan</label>
+                    <textarea 
+                        id="message-content" 
+                        name="message_content" 
+                        class="form-textarea" 
+                        rows="8"
+                        placeholder="Tuliskan harapan, doa, atau ucapan selamat tahun baru 2026 yang ingin kamu sampaikan..."
+                        required
+                    ></textarea>
+                </div>
+                <button type="submit" id="submit-message" class="btn-submit">
+                    <span id="submit-text">Kirim Pesan</span>
+                    <span id="submit-loading" class="hidden">Mengirim...</span>
+                </button>
+                <div id="form-message" class="form-message hidden"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Letters Overlay -->
+    <div id="letters-overlay" class="overlay hidden" aria-hidden="true">
+        <div class="overlay-inner">
+            <button id="close-overlay" class="close-btn" aria-label="Tutup surat">✕</button>
+            <h3 class="overlay-title">Surat Ucapan</h3>
+            <p class="overlay-subtitle">Ketuk salah satu surat untuk membaca ucapan</p>
+            <div class="letters-grid">
+                <button class="letter-card" data-index="0">
+                    <div class="envelope-icon">✉️</div>
+                    <div class="letter-title">Surat 1</div>
+                    <div class="letter-sub">Harapan hangat</div>
+                </button>
+                <button class="letter-card" data-index="1">
+                    <div class="envelope-icon">✉️</div>
+                    <div class="letter-title">Surat 2</div>
+                    <div class="letter-sub">Doa terbaik</div>
+                </button>
+                <button class="letter-card" data-index="2">
+                    <div class="envelope-icon">✉️</div>
+                    <div class="letter-title">Surat 3</div>
+                    <div class="letter-sub">Langkah baru</div>
+                </button>
+            </div>
+            <div id="letter-message" class="letter-message hidden">
+                <div class="message-title">Ucapan</div>
+                <p id="letter-text" class="message-text"></p>
+                <button id="close-message" class="btn-small">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Audio -->
+    <audio id="bg-audio" src="audio.mp3" loop autoplay></audio>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
